@@ -96,6 +96,100 @@
           }
         }
       }
+    },
+    "password-generator": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "projects/password-generator",
+      "sourceRoot": "projects/password-generator/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/password-generator",
+            "index": "projects/password-generator/src/index.html",
+            "main": "projects/password-generator/src/main.ts",
+            "polyfills": "projects/password-generator/src/polyfills.ts",
+            "tsConfig": "projects/password-generator/tsconfig.app.json",
+            "assets": [
+              "projects/password-generator/src/favicon.ico",
+              "projects/password-generator/src/assets"
+            ],
+            "styles": [
+              "projects/password-generator/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/password-generator/src/environments/environment.ts",
+                  "with": "projects/password-generator/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "password-generator:build:production"
+            },
+            "development": {
+              "browserTarget": "password-generator:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "password-generator:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/password-generator/src/test.ts",
+            "polyfills": "projects/password-generator/src/polyfills.ts",
+            "tsConfig": "projects/password-generator/tsconfig.spec.json",
+            "karmaConfig": "projects/password-generator/karma.conf.js",
+            "assets": [
+              "projects/password-generator/src/favicon.ico",
+              "projects/password-generator/src/assets"
+            ],
+            "styles": [
+              "projects/password-generator/src/styles.css"
+            ],
+            "scripts": []
+          }
+        }
+      }
     }
   }
 }
