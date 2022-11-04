@@ -1,4 +1,11 @@
-import { Directive, HostBinding, HostListener, Input } from '@angular/core';
+import {
+  Directive,
+  EventEmitter,
+  HostBinding,
+  HostListener,
+  Input,
+  Output,
+} from '@angular/core';
 
 /**
  * Cette directive permet de faire changer la couleur du background d'un élément HTML
@@ -9,6 +16,10 @@ import { Directive, HostBinding, HostListener, Input } from '@angular/core';
 @Directive({
   // Elle cible tous les élément <p> qui ont un attribut "highlight"
   selector: 'p[highlight]',
+  // L'instance de la directive sera disponible avec le nom "hl"
+  // dans le template et on pourra la stocker dans une variable de template
+  // pour la manipuler
+  exportAs: 'hl',
 })
 export class HighlightDirective {
   /**
@@ -44,6 +55,16 @@ export class HighlightDirective {
   baseColor = 'transparent';
 
   /**
+   * On pourra écouter un événement "color-change" sur l'élément HTML sur lequel
+   * la directive est greffé. L'information contenue dans l'événement sera une
+   * simple string (la couleur actuelle)
+   *
+   * Exemple : <p highlight (color-change)="faireQuelqueChose($event)">..</p>
+   */
+  @Output('color-change')
+  colorChangeEvent = new EventEmitter<string>();
+
+  /**
    * La méthode onMouseEnter() sera appelée à chaque fois que la souris passe par dessus
    * l'élément HTML
    *
@@ -56,6 +77,9 @@ export class HighlightDirective {
   @HostListener('mouseenter')
   onMouseEnter() {
     this.color = this.backgroundColor;
+
+    // On émet l'événement avec la couleur comme information
+    this.colorChangeEvent.emit(this.color);
   }
 
   /**
@@ -71,6 +95,9 @@ export class HighlightDirective {
   @HostListener('mouseout')
   onMouseOut() {
     this.color = this.baseColor;
+
+    // On émet l'événement avec la couleur comme information
+    this.colorChangeEvent.emit(this.color);
   }
 
   /**
@@ -81,5 +108,8 @@ export class HighlightDirective {
    */
   ngOnInit() {
     this.color = this.baseColor;
+
+    // On émet l'événement avec la couleur comme information
+    this.colorChangeEvent.emit(this.color);
   }
 }

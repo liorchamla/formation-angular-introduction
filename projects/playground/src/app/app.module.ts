@@ -7,6 +7,10 @@ import { CounterComponent } from './components/counter.component';
 import { HighlightDirective } from './directives-attributs/highlight.directive';
 import { NoOpenDirective } from './directives-attributs/no-open.directive';
 import { UserProfileComponent } from './components/user-profile.component';
+import { ModelDirective } from './directives-attributs/model.directive';
+import { SetClassesDirective } from './directives-attributs/set-classes.directive';
+import { FormsModule } from '@angular/forms';
+import { ForceLowerDirective } from './directives-attributs/force-lower.directive';
 
 @NgModule({
   declarations: [
@@ -16,8 +20,11 @@ import { UserProfileComponent } from './components/user-profile.component';
     ConfirmDirective,
     UserProfileComponent,
     CounterComponent,
+    ModelDirective,
+    SetClassesDirective,
+    ForceLowerDirective,
   ],
-  imports: [BrowserModule],
+  imports: [BrowserModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],
 })
