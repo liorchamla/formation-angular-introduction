@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { PasswordControlsComponent } from './components/password-controls.component';
 import { PasswordSettingsComponent } from './components/password-settings.component';
 import { PasswordDisplayComponent } from './components/password-display.component';
+import { PasswordGeneratorService } from './password-generator.service';
 
 describe('AppComponent (avec Spectator)', () => {
   let spectator: Spectator<AppComponent>;
@@ -17,6 +18,8 @@ describe('AppComponent (avec Spectator)', () => {
       PasswordSettingsComponent,
       PasswordDisplayComponent,
     ],
+    // providers: [PasswordGeneratorService],
+    mocks: [PasswordGeneratorService],
     imports: [FormsModule],
   });
 
@@ -32,9 +35,14 @@ describe('AppComponent (avec Spectator)', () => {
   });
 
   it('should change message when user clicks generate button', () => {
+    // Configurons l'espion sur la méthode "generate" du PasswordGeneratorService
+    spectator
+      .inject(PasswordGeneratorService)
+      .generate.and.returnValue('MOCK_PASSWORD');
+
     spectator.click('button');
 
-    expect(spectator.query('article')).toHaveText('MON_MOT_DE_PASSE');
+    expect(spectator.query('article')).toHaveText('MOCK_PASSWORD');
   });
 
   it('should update settings when user clicks on checkboxes', () => {
@@ -65,6 +73,7 @@ describe('AppComponent (avec TestBed)', () => {
         PasswordSettingsComponent,
         PasswordDisplayComponent,
       ],
+      providers: [PasswordGeneratorService],
       imports: [FormsModule],
     }).compileComponents();
 
@@ -80,10 +89,16 @@ describe('AppComponent (avec TestBed)', () => {
   });
 
   it('should change message when user clicks generate button', () => {
+    // Créons un espion sur le PasswordGeneratorService :
+    const spy = spyOn(TestBed.inject(PasswordGeneratorService), 'generate');
+    // La fonction retournera désormais "MOCK_PASSWORD"
+    spy.and.returnValue('MOCK_PASSWORD');
+
+    // Quand je click sur le bouton
     fixture.nativeElement.querySelector('button').click();
 
     const article = fixture.nativeElement.querySelector('article');
-    expect(article.textContent).toBe('MON_MOT_DE_PASSE');
+    expect(article.textContent).toBe('MOCK_PASSWORD');
   });
 
   it('should update settings when user clicks on checkboxes', () => {
