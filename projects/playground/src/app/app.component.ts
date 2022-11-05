@@ -7,11 +7,28 @@ import { Component } from '@angular/core';
       Découverte Angular
     </h1>
 
-    Mon revenu : {{ revenuDeBase }}
+    <card title="Mon titre">
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid saepe
+        id facilis magnam iure nisi.
+      </p>
 
-    <input [(ngModel)]="revenuDeBase" type="number" placeholder="Vos revenus" />
+      <footer>
+        <p>Lorem ipsum dolor sit amet.</p>
+      </footer>
+    </card>
 
-    <button (click)="calculImpots()">Calcul des impots</button>
+    <newsletter
+      title="Recevez nos courriers !"
+      button-text="Confirmer !"
+      placeholder="Votre adresse email svp"
+      (confirm)="onConfirm($event)"
+    >
+      <p>Vous recevrez l'ensemble de nos informations</p>
+      <h2>Hourra c'est super la vie !</h2>
+      <p>Lorem ipsum dolor sit amet.</p>
+      <a href="#">En savoir plus</a>
+    </newsletter>
 
     <p
       #paragraphe="hl"
@@ -41,6 +58,15 @@ export class AppComponent {
   age = 35;
   nationalite = 'France';
   revenuDeBase = 100;
+
+  /**
+   * La méthode onConfirm() sera liée à l'événement "confirm" du composant
+   * <newsletter> et sera donc appelée à chaque fois que le composant émettra un
+   * signal sur ce canal via son EventEmitter !
+   */
+  onConfirm(email: string) {
+    console.log("Depuis l'extérieur du composant", email);
+  }
 
   calculImpots() {
     const impots = this.revenuDeBase + 500;
