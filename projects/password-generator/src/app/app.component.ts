@@ -13,38 +13,28 @@ import { Component } from '@angular/core';
         <div>
           <label for="length">Longueur du mot de passe : {{ length }}</label>
           <input
-            #lengthInput
-            (input)="onChangeLength(lengthInput.valueAsNumber)"
             type="range"
             name="length"
             min="10"
             max="50"
             id="length"
-            [value]="length"
+            [(ngModel)]="length"
           />
 
           <label for="uppercase">
             <input
-              #uppercaseInput
-              (change)="
-                onChangeSetting(uppercaseInput.name, uppercaseInput.checked)
-              "
               role="switch"
               type="checkbox"
               name="uppercase"
               id="uppercase"
-              [checked]="uppercase"
+              [(ngModel)]="uppercase"
             />
             Contiendra des majuscules
           </label>
           <label for="symbols">
             <input
-              #symbolsInput
-              (change)="
-                onChangeSetting(symbolsInput.name, symbolsInput.checked)
-              "
               role="switch"
-              [checked]="symbols"
+              [(ngModel)]="symbols"
               type="checkbox"
               name="symbols"
               id="symbols"
@@ -53,12 +43,8 @@ import { Component } from '@angular/core';
           </label>
           <label for="numbers">
             <input
-              #numbersInput
-              (change)="
-                onChangeSetting(numbersInput.name, numbersInput.checked)
-              "
               role="switch"
-              [checked]="numbers"
+              [(ngModel)]="numbers"
               type="checkbox"
               name="numbers"
               id="numbers"
