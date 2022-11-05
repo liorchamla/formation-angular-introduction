@@ -2,6 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { Spectator, createComponentFactory } from '@ngneat/spectator';
 import { FormsModule } from '@angular/forms';
+import { PasswordControlsComponent } from './components/password-controls.component';
+import { PasswordSettingsComponent } from './components/password-settings.component';
+import { PasswordDisplayComponent } from './components/password-display.component';
 
 describe('AppComponent (avec Spectator)', () => {
   let spectator: Spectator<AppComponent>;
@@ -9,6 +12,11 @@ describe('AppComponent (avec Spectator)', () => {
 
   const createComponent = createComponentFactory({
     component: AppComponent,
+    declarations: [
+      PasswordControlsComponent,
+      PasswordSettingsComponent,
+      PasswordDisplayComponent,
+    ],
     imports: [FormsModule],
   });
 
@@ -31,17 +39,17 @@ describe('AppComponent (avec Spectator)', () => {
 
   it('should update settings when user clicks on checkboxes', () => {
     spectator.click('#uppercase');
-    expect(component.uppercase).toBeTrue();
+    expect(component.settings.uppercase).toBeTrue();
 
     spectator.click('#symbols');
-    expect(component.symbols).toBeTrue();
+    expect(component.settings.symbols).toBeTrue();
 
     spectator.click('#numbers');
-    expect(component.numbers).toBeTrue();
+    expect(component.settings.numbers).toBeTrue();
 
     spectator.typeInElement('33', '#length');
 
-    expect(component.length).toBe(33);
+    expect(component.settings.length).toBe(33);
   });
 });
 
@@ -51,7 +59,12 @@ describe('AppComponent (avec TestBed)', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AppComponent],
+      declarations: [
+        AppComponent,
+        PasswordControlsComponent,
+        PasswordSettingsComponent,
+        PasswordDisplayComponent,
+      ],
       imports: [FormsModule],
     }).compileComponents();
 
@@ -75,13 +88,13 @@ describe('AppComponent (avec TestBed)', () => {
 
   it('should update settings when user clicks on checkboxes', () => {
     fixture.nativeElement.querySelector('#uppercase').click();
-    expect(component.uppercase).toBeTrue();
+    expect(component.settings.uppercase).toBeTrue();
 
     fixture.nativeElement.querySelector('#symbols').click();
-    expect(component.symbols).toBeTrue();
+    expect(component.settings.symbols).toBeTrue();
 
     fixture.nativeElement.querySelector('#numbers').click();
-    expect(component.numbers).toBeTrue();
+    expect(component.settings.numbers).toBeTrue();
 
     const lengthInput = fixture.nativeElement.querySelector(
       '#length'
@@ -89,6 +102,6 @@ describe('AppComponent (avec TestBed)', () => {
     lengthInput.value = '33';
     lengthInput.dispatchEvent(new Event('input'));
 
-    expect(component.length).toBe(33);
+    expect(component.settings.length).toBe(33);
   });
 });
