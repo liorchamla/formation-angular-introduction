@@ -16,6 +16,9 @@ import { CardComponent } from './components/card.component';
 import { IfDirective } from './directives-structurelles/if.directive';
 import { LoopDirective } from './directives-structurelles/loop.directive';
 import { RepeatDirective } from './directives-structurelles/repeat.directive';
+import { DeclarationComponent } from './components/declaration.component';
+import { RecapComponent } from './components/recap.component';
+import { TAUX_TVA, TaxesService } from './services/taxes.service';
 
 @NgModule({
   declarations: [
@@ -33,9 +36,29 @@ import { RepeatDirective } from './directives-structurelles/repeat.directive';
     IfDirective,
     LoopDirective,
     RepeatDirective,
+    DeclarationComponent,
+    RecapComponent,
   ],
   imports: [BrowserModule, FormsModule],
-  providers: [],
+  providers: [
+    // {
+    //   provide: TaxesService,
+    //   useFactory: () => {
+    //     return new TaxesService
+    //   }
+    // },
+    // Equivalent à :
+    // {
+    //   provide: TaxesService,
+    //   useClass: TaxesService
+    // },
+    // Equivalent à :
+    TaxesService,
+    {
+      provide: TAUX_TVA,
+      useValue: 0.2,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
