@@ -3,45 +3,32 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   template: `
-    <h1 [ngClass]="{ red: age > 18, bold: nationalite === 'France' }">
-      Découverte Angular
-    </h1>
+    <h1>Découverte Angular</h1>
 
-    <card title="Mon titre">
+    <nav>
+      <a href="#" *repeat="pagesCount; let page">Page {{ page + 1 }}</a>
+    </nav>
+    <button (click)="pagesCount = pagesCount + 1">Ajouter une page</button>
+
+    <ul>
+      <li *ngFor="let personne of personnes; let numero = index">
+        {{ personne.prenom }} {{ personne.nom }} (Numéro {{ numero + 1 }})
+      </li>
+    </ul>
+    <button (click)="ajouterUnePersonne()">Ajouter Joseph</button>
+
+    <div *ngIf="age > 18; else autre">
+      <h2>Vous êtes majeur !</h2>
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid saepe
-        id facilis magnam iure nisi.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus, maxime.
       </p>
+      <button>Accéder au site</button>
+    </div>
 
-      <footer>
-        <p>Lorem ipsum dolor sit amet.</p>
-      </footer>
-    </card>
-
-    <newsletter
-      title="Recevez nos courriers !"
-      button-text="Confirmer !"
-      placeholder="Votre adresse email svp"
-      (confirm)="onConfirm($event)"
-    >
-      <p>Vous recevrez l'ensemble de nos informations</p>
-      <h2>Hourra c'est super la vie !</h2>
-      <p>Lorem ipsum dolor sit amet.</p>
-      <a href="#">En savoir plus</a>
-    </newsletter>
-
-    <p
-      #paragraphe="hl"
-      highlight
-      base-color="green"
-      background-color="purple"
-      (color-change)="onColorChange($event)"
-    >
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam laudantium
-      inventore nostrum eligendi quas quod cupiditate cum necessitatibus placeat
-      pariatur. Quod quisquam mollitia quia quos!
-    </p>
-    <button (click)="paragraphe.onMouseEnter()">Changer la couleur</button>
+    <ng-template #autre>
+      <h2>Vous ne pouvez pas entrer dans le site</h2>
+      <button>Me ramener sur Google!</button>
+    </ng-template>
   `,
   styles: [
     `
@@ -56,27 +43,17 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   age = 35;
-  nationalite = 'France';
-  revenuDeBase = 100;
+  pagesCount = 3;
 
-  /**
-   * La méthode onConfirm() sera liée à l'événement "confirm" du composant
-   * <newsletter> et sera donc appelée à chaque fois que le composant émettra un
-   * signal sur ce canal via son EventEmitter !
-   */
-  onConfirm(email: string) {
-    console.log("Depuis l'extérieur du composant", email);
-  }
+  personnes = [
+    { prenom: 'Lior', nom: 'Chamla' },
+    { prenom: 'Magali', nom: 'Pernin' },
+  ];
 
-  calculImpots() {
-    const impots = this.revenuDeBase + 500;
-    console.log('Impots calculés :', impots);
-  }
-  /**
-   * La méthode onColorChange() sera appelée à chaque fois que la couleur de fond
-   * du paragraphe change, grâce à l'événement custom que nous avons créé (color-change)
-   */
-  onColorChange(color: string) {
-    console.log('La couleur a changé : ', color);
+  ajouterUnePersonne() {
+    this.personnes.push({
+      prenom: 'Joseph',
+      nom: 'Dupont',
+    });
   }
 }

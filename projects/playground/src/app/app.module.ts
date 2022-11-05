@@ -13,6 +13,9 @@ import { FormsModule } from '@angular/forms';
 import { ForceLowerDirective } from './directives-attributs/force-lower.directive';
 import { NewsletterComponent } from './components/newsletter.component';
 import { CardComponent } from './components/card.component';
+import { IfDirective } from './directives-structurelles/if.directive';
+import { LoopDirective } from './directives-structurelles/loop.directive';
+import { RepeatDirective } from './directives-structurelles/repeat.directive';
 
 @NgModule({
   declarations: [
@@ -27,6 +30,9 @@ import { CardComponent } from './components/card.component';
     ForceLowerDirective,
     NewsletterComponent,
     CardComponent,
+    IfDirective,
+    LoopDirective,
+    RepeatDirective,
   ],
   imports: [BrowserModule, FormsModule],
   providers: [],
