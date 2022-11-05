@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PasswordGeneratorService } from './password-generator.service';
+import { PasswordGeneratorService } from './password-generator/password-generator.service';
 import { Settings } from './types';
 
 @Component({
