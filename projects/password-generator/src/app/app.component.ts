@@ -7,7 +7,7 @@ import { Settings } from './types';
     <div class="container">
       <h1>Générez un mot de passe fort !</h1>
       <div class="grid">
-        <password-display [message]="message"></password-display>
+        <password-display [password]="password"></password-display>
         <div>
           <password-settings
             [default-settings]="settingsCopy"
@@ -21,7 +21,7 @@ import { Settings } from './types';
   `,
 })
 export class AppComponent {
-  message = 'Cliquez sur le bouton "Générer"';
+  password = '';
 
   settings: Settings = {
     length: 20,
@@ -39,7 +39,7 @@ export class AppComponent {
   }
 
   onGenerate() {
-    this.message = 'MON_MOT_DE_PASSE';
+    this.password = 'MON_MOT_DE_PASSE';
 
     console.table(this.settings);
   }

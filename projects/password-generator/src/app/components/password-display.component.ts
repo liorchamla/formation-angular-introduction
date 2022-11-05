@@ -11,11 +11,12 @@ import { Component, Input } from '@angular/core';
   template: `
     <div>
       <h3>Votre futur mot de passe :</h3>
-      <article>{{ message }}</article>
+      <article *ngIf="!password">Cliquez sur le bouton "Générer"</article>
+      <article *ngIf="password">{{ password }}</article>
     </div>
   `,
   styles: [],
 })
 export class PasswordDisplayComponent {
-  @Input() message = '';
+  @Input() password = '';
 }

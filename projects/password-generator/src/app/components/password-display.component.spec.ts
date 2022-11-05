@@ -1,11 +1,6 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  Spectator,
-  createComponentFactory,
-  SpectatorHost,
-  createHostFactory,
-} from '@ngneat/spectator';
+import { SpectatorHost, createHostFactory } from '@ngneat/spectator';
 
 import { PasswordDisplayComponent } from './password-display.component';
 
@@ -21,11 +16,15 @@ import { PasswordDisplayComponent } from './password-display.component';
 
 @Component({
   selector: '',
-  template: ` <password-display message="MOCK_MESSAGE"></password-display> `,
+  template: ` <password-display password="MOCK_PASSWORD"></password-display> `,
 })
-class TestComponent {
-  onGenerate() {}
-}
+class TestComponent {}
+
+@Component({
+  selector: '',
+  template: ` <password-display></password-display> `,
+})
+class TestDefaultComponent {}
 
 /**
  * SpectatorHost me permet de tester un composant en intégration d'un autre
@@ -33,60 +32,52 @@ class TestComponent {
  */
 describe('PasswordDisplayComponent (avec SpectatorHost)', () => {
   let spectator: SpectatorHost<PasswordDisplayComponent>;
-  let component: PasswordDisplayComponent;
 
   const createComponent = createHostFactory({
     component: PasswordDisplayComponent,
   });
 
-  beforeEach(() => {
+  it('should display the input password', () => {
     spectator = createComponent(
-      `<password-display message="MOCK_MESSAGE"></password-display>`
+      `<password-display password="MOCK_PASSWORD"></password-display>`
     );
-    component = spectator.component;
+    expect(spectator.query('article')).toHaveText('MOCK_PASSWORD');
   });
 
-  it('should display the input message', () => {
-    expect(spectator.query('article')).toHaveText('MOCK_MESSAGE');
-  });
-});
-
-describe('PasswordDisplayComponent (avec Spectator)', () => {
-  let spectator: Spectator<TestComponent>;
-  let component: TestComponent;
-
-  const createComponent = createComponentFactory({
-    component: TestComponent,
-    declarations: [PasswordDisplayComponent],
-  });
-
-  beforeEach(() => {
-    spectator = createComponent();
-    component = spectator.component;
-  });
-
-  it('should display the input message', () => {
-    expect(spectator.query('article')).toHaveText('MOCK_MESSAGE');
+  it('should display a default text if no password input is given', () => {
+    spectator = createComponent(`<password-display></password-display>`);
+    expect(spectator.query('article')).toHaveText(
+      'Cliquez sur le bouton "Générer"'
+    );
   });
 });
 
 describe('PasswordDisplayComponent (avec TestBed)', () => {
-  let component: TestComponent;
   let fixture: ComponentFixture<TestComponent>;
 
-  beforeEach(async () => {
+  it('should emit an event when user clicks the button', async () => {
     await TestBed.configureTestingModule({
       declarations: [TestComponent, PasswordDisplayComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestComponent);
-    component = fixture.componentInstance;
     fixture.autoDetectChanges();
+
+    expect(fixture.nativeElement.querySelector('article').textContent).toBe(
+      'MOCK_PASSWORD'
+    );
   });
 
-  it('should emit an event when user clicks the button', () => {
+  it('should display a default text if no password input is given', async () => {
+    await TestBed.configureTestingModule({
+      declarations: [TestDefaultComponent, PasswordDisplayComponent],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(TestDefaultComponent);
+    fixture.autoDetectChanges();
+
     expect(fixture.nativeElement.querySelector('article').textContent).toBe(
-      'MOCK_MESSAGE'
+      'Cliquez sur le bouton "Générer"'
     );
   });
 });
