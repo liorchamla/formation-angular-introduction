@@ -15,7 +15,10 @@ import { Settings } from './types';
             (settings-change)="onSettingsChange($event)"
           ></password-settings>
           <hr />
-          <password-controls (generate)="onGenerate()"></password-controls>
+          <password-controls
+            [password]="password"
+            (generate)="onGenerate()"
+          ></password-controls>
         </div>
       </div>
     </div>
